@@ -1,0 +1,22 @@
+****************************************************
+****************************************************
+Para compilar el programa se debe usar 
+el comando: 
+$ gcc -o "Nombre" calcula_impuesto.c
+donde Nombre es el que se prefiera dar al programa.
+
+Para ejecutar el programa se debe usar
+el comando:
+$ ./"Nombre" País Número
+donde Nombre es el nombre del programa al compilar,
+País es el de la preferencia y en mayusculas
+(MEXICO, EUA, COLOMBIA) y por último número
+es el precio a calcular y debe ser mayor a 0.
+
+Ejemplo:
+
+$ gcc -o impuesto calcula_impuesto.c
+$ ./impuesto MEXICO 37.32
+******************************************************
+******************************************************
+
