@@ -98,4 +98,4 @@ int main(int argc, char const *argv[])
 	imprime_pago(argv[1], entrada);
 
 	return 0;
-}
+} 
