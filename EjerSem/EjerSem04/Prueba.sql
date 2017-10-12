@@ -1,0 +1,12 @@
+CREATE TABLE estudiante(id INTEGER PRIMARY KEY ASC, num_cuenta INTEGER, apellido_paterno TEXT, apellido_materno TEXT, nombres TEXT, sexo TEXT, dia INTEGER, mes INTEGER, anio INTEGER);
+CREATE TABLE carrera(id INTEGER PRIMARY KEY ASC, nombre TEXT);
+CREATE TABLE profesor(id INTEGER PRIMARY KEY ASC, num_trabajador INTEGER, apellido_paterno TEXT, apellido_materno TEXT, nombres TEXT, sexo TEXT, dia INTEGER, mes INTEGER, anio INTEGER);
+CREATE TABLE materia(id INTEGER PRIMARY KEY ASC, nombre TEXT, semestre INTEGER, optativo TEXT);
+CREATE TABLE salon(id INTEGER PRIMARY KEY ASC, num_salon INTEGER, edificio TEXT, num_piso INTEGER);
+CREATE TABLE estudiantes_carrera(id INTEGER PRIMARY KEY ASC, id_estudiantes INTEGER, id_carrera INTEGER);
+CREATE TABLE estudiantes_salones(id INTEGER PRIMARY KEY ASC,id_estudiantes INTEGER, id_salones INTEGER);
+CREATE TABLE estudiantes_profesores(id INTEGER PRIMARY KEY ASC,id_estudiantes INTEGER, id_profesores INTEGER);
+CREATE TABLE estudiantes_materias(id INTEGER PRIMARY KEY ASC,id_estudiantes INTEGER, id_materias INTEGER);
+CREATE TABLE profesores_estudiantes(id INTEGER PRIMARY KEY ASC,id_profesores INTEGER, id_estudiantes INTEGER);
+CREATE TABLE profesores_salones(id INTEGER PRIMARY KEY ASC,id_profesores INTEGER, id_salones INTEGER);
+CREATE TABLE profesores_materias(id INTEGER PRIMARY KEY ASC,id_profesores INTEGER, id_materias INTEGER);
