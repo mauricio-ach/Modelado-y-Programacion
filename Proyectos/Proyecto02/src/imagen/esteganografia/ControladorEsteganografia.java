@@ -1,3 +1,5 @@
+package imagen.esteganografia;
+
 /**
  * ControladorEsteganografia.java 
  * Version 1.0
@@ -17,13 +19,13 @@
  *
  */
 
-package imagen.esteganografia;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.awt.image.BufferedImage;
-import java.awt.Color;
+import java.awt.image.WritableRaster;
+import java.awt.image.DataBufferByte;
+import java.awt.Point;
+import java.awt.Graphics2D;
+import javax.imageio.ImageIO;
 
 /**
  * @author Mauricio Araujo
@@ -51,7 +53,13 @@ public class ControladorEsteganografia{
 	* @return True si la operación fue correcta, False en otro caso.
 	*/
 	public boolean codificar(String path, String imagen_nombre, String imagen_salida, String texto){
-		return true;
+		String nombre_archivo = getImagenPath(path, imagen_nombre);
+		BufferedImage imagen_entrada = getImagen(nombre_archivo);
+
+		BufferedImage imagen = getEspacio(imagen_entrada);
+		imagen = agregaTexto(imagen, texto);
+
+		return(setImagen(imagen, new File(getImagenPath(path, imagen_salida))));
 	} 
 
 	/**
@@ -62,7 +70,16 @@ public class ControladorEsteganografia{
 	* @return El texto escondido en la imagen
 	*/
 	public String decodificar(String path, String imagen_nombre){
-		return "";
+		byte[] texto_salida;
+
+		try{
+			BufferedImage imagen = getEspacio(getImagen(getImagenPath(path, imagen_nombre)));
+			texto_salida = 	decodificaTexto(obtenDatos(imagen));
+			return(new String(texto_salida));
+		} catch (Exception e){
+			System.out.println("Error al leer imagen!");
+			return "";
+		}
 	}
 
 	/**
@@ -81,9 +98,15 @@ public class ControladorEsteganografia{
 	* @param archivo el nombre del archivo a procesar
 	* @return BufferedImage generada con el archivo
 	*/
-	private BufferedImage getImagen(String archivo)
-	{
-		return null;
+	private BufferedImage getImagen(String archivo){
+		BufferedImage imagen = null;
+		File archivo_temp = new File(archivo);
+		try{
+			imagen = ImageIO.read(archivo_temp);
+		} catch(Exception e){
+			System.out.println("Error al leer imagen!");
+		}
+		return imagen;
 	}
 
 	/**
@@ -92,9 +115,15 @@ public class ControladorEsteganografia{
 	* @param archivo donde sera guardada la imagen
 	* @return True si resulto existoso, False en otro caso
 	*/
-	private boolean setImagen(BufferedImage imagen, File archivo)
-	{
-		return true;
+	private boolean setImagen(BufferedImage imagen, File archivo){
+		try{
+			archivo.delete();
+			ImageIO.write(imagen, "png", archivo);
+			return true;
+		} catch(Exception e){
+			System.out.println("Error al leer imagen!");
+			return false;
+		}
 	}
 
 	/**
@@ -103,9 +132,18 @@ public class ControladorEsteganografia{
 	* @param texto el texto a ser codificado
 	* @return la imagen con el texto dentro de ella
 	*/
-	private BufferedImage agregaTexto(BufferedImage imagen, String texto)
-	{
-		return null;
+	private BufferedImage agregaTexto(BufferedImage imagen, String texto){
+		byte imagen_temp[] = obtenDatos(imagen);
+		byte mensaje[] = texto.getBytes();
+		byte longitud[] = convierteBit(mensaje.length);
+
+		try{
+			codificaTexto(imagen_temp, longitud, 0);
+			codificaTexto(imagen_temp, mensaje, 32);
+		} catch(Exception e){
+			System.out.println("Error al insertar texto en imagen!");
+		}
+		return imagen;
 	}
 
 	/**
@@ -114,7 +152,9 @@ public class ControladorEsteganografia{
 	* @return un arreglo con los datos de la imagen
 	*/
 	private byte[] obtenDatos(BufferedImage imagen) {
-		return null;
+		WritableRaster raster = imagen.getRaster();
+		DataBufferByte buffer = (DataBufferByte)raster.getDataBuffer();
+		return buffer.getData();
 	}
 
 	/**
@@ -138,9 +178,20 @@ public class ControladorEsteganografia{
 	* @param los datos que seran agregados en el original
 	* @param la compensacion de la operacion
 	* @return un arreglo con la informacion mezclada apropiadamente
+	* @throws IllegalArgumentException
 	*/
 	private byte[] codificaTexto(byte[] imagen, byte[] agregado, int compensacion){
-		return null;
+		if(agregado.length + compensacion > imagen.length)
+			throw new IllegalArgumentException("Imagen no es suficientemente grande!");
+
+		for(int i = 0; i < agregado.length; i++){
+			int agrega = agregado[i];
+			for(int j = 7; j >= 0; j--,compensacion++){
+				int temp = (agrega >>> j) & 1;
+				imagen[compensacion] = (byte)((imagen[compensacion] & 0xFE) | temp);
+			}
+		}
+		return imagen;
 	}
 
 	/**
@@ -149,6 +200,33 @@ public class ControladorEsteganografia{
 	* @return un arreglo con el texto dentro de la imagen
 	*/
 	private byte[] decodificaTexto(byte[] imagen){
-		return null;
+		int longitud = 0;
+		int compensacion = 32;
+
+		for(int i = 0; i < 32; i++)
+			longitud = (longitud << 1) | (imagen[i] & 1);
+
+		byte[] resultado = new byte[longitud];
+
+		for (int i = 0; i < resultado.length; i++){
+			for (int j = 0; j < 8; j++, compensacion++){
+				resultado[i] = (byte) ((resultado[i] << 1) | (imagen[compensacion] & 1));
+			}
+		}
+		return resultado;
+	}
+
+	/**
+	* Crea un espacio para editar y guardar bytes en la imagen
+	* @param la imagen a poner dentro del espacio
+	* @return el espacio con la imagen utilizada
+	*/
+	private BufferedImage getEspacio(BufferedImage imagen){
+		BufferedImage imagen_nueva = new BufferedImage(imagen.getWidth(), imagen.getHeight(), 
+			BufferedImage.TYPE_3BYTE_BGR);
+		Graphics2D graphics = imagen_nueva.createGraphics();
+		graphics.drawRenderedImage(imagen, null);
+		graphics.dispose();
+		return imagen_nueva;
 	}
 }

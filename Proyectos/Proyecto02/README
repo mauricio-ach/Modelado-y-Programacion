@@ -1,0 +1,15 @@
+Programa que ejecuta la técnica de esteganografía LSB
+
+
+Para compilar use el comando ant:
+# ant
+Esto generará un archivo llamado correlacion.jar
+Para ejecutar utilice el comando:
+# java -jar correlacion.jar
+
+Y basta proporcionar los datos que el programa requerirá
+
+Para generar la documentacion use:
+ant doc
+
+Araujo Chávez Mauricio 312210047
