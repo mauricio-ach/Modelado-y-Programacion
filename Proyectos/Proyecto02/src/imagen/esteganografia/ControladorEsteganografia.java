@@ -229,4 +229,4 @@ public class ControladorEsteganografia{
 		graphics.dispose();
 		return imagen_nueva;
 	}
-}
+}	

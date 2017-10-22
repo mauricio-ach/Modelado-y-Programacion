@@ -49,12 +49,15 @@ public class ControladorOpcion{
 		FileReader fr = null;
 		BufferedReader br = null;
 		String linea = "";
+		String path = "Documentos/" + archivo + ".txt";
 		try{
-			fr = new FileReader("/Documentos/" + archivo + ".txt");
+			fr = new FileReader(path);
 			br = new BufferedReader(fr);
 			String aux = "";
 			while((aux = br.readLine()) != null)
-				linea = linea + aux; 
+				linea = linea + aux + "\n"; 
+			fr.close();
+			br.close();
 		} catch(Exception e){
 			System.out.println("Error al manejar archivo");
 		} 
@@ -67,13 +70,11 @@ public class ControladorOpcion{
 	* @param el texto a escribir
 	*/
 	public static void escribeTexto(String archivo, String texto){
-		File archivo_temp = new File("Documentos/" + archivo + ".txt");
-		FileWriter fw = null;
-		BufferedWriter bw = null;
+		String path = "Documentos/" + archivo + ".txt";
 		try{
-			fw = new FileWriter(archivo_temp);
-			bw = new BufferedWriter(fw);
+			BufferedWriter bw = new BufferedWriter(new FileWriter(path));
 			bw.write(texto);
+			bw.close();
 		} catch(Exception e){
 			System.out.println("Error al crear archivo!");
 		}
@@ -85,25 +86,37 @@ public class ControladorOpcion{
 	public static void main(String[] args) {
 		//Declaramos variables a utilizar
 		Scanner sc = new Scanner(System.in);
-		String opcion = "";
 		String archivo = "";
+		String texto = "";
 		String imagen_original = "";
 		String imagen_salida = "";
+		ControladorEsteganografia control = new ControladorEsteganografia();
 
-		/*System.out.println("Ingresa 1");
+		//Ocultar
+		System.out.println("Ingresa archivo");
 		archivo = sc.nextLine();
-
-		System.out.println("Ingresa 2");
+		System.out.println("Ingresa imagen1");
 		imagen_original = sc.nextLine();
-
-		System.out.println("Ingresa 3");
+		System.out.println("Ingresa imagen2");
 		imagen_salida = sc.nextLine();
 
-		ControladorEsteganografia control = new ControladorEsteganografia();
-		String texto = getTexto(archivo);
+		texto = getTexto(archivo);
 		boolean realizado = false;
 		realizado = control.codificar("Img", imagen_original, imagen_salida, texto);
-		*/
+	    
+		//Develar
+		System.out.println("Ingresa imagen");
+		imagen_original = sc.nextLine();
+		System.out.println("Ingresa archivo");
+		archivo = sc.nextLine();
+		texto = control.decodificar("Img", imagen_original);
+		escribeTexto(archivo, texto);
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////7
+
+
+
 		/*
 		//Obtenemos la opción
 		System.out.println("***************************************");
@@ -179,18 +192,5 @@ public class ControladorOpcion{
 				}
 			}
 		}*/
-		System.out.println("Ingresa 1");
-		archivo = sc.nextLine();
-
-		System.out.println("Ingresa 2");
-		imagen_original = sc.nextLine();
-
-		ControladorEsteganografia control = new ControladorEsteganografia();
-
-		String salida = control.decodificar("Img", imagen_original);
-		System.out.println(salida);
-		//escribeTexto(archivo, salida);
-
-		
 	}
 }
