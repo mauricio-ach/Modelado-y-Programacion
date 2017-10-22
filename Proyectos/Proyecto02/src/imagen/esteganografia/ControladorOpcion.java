@@ -86,38 +86,13 @@ public class ControladorOpcion{
 	public static void main(String[] args) {
 		//Declaramos variables a utilizar
 		Scanner sc = new Scanner(System.in);
+		String opcion = "";
 		String archivo = "";
 		String texto = "";
 		String imagen_original = "";
 		String imagen_salida = "";
 		ControladorEsteganografia control = new ControladorEsteganografia();
 
-		//Ocultar
-		System.out.println("Ingresa archivo");
-		archivo = sc.nextLine();
-		System.out.println("Ingresa imagen1");
-		imagen_original = sc.nextLine();
-		System.out.println("Ingresa imagen2");
-		imagen_salida = sc.nextLine();
-
-		texto = getTexto(archivo);
-		boolean realizado = false;
-		realizado = control.codificar("Img", imagen_original, imagen_salida, texto);
-	    
-		//Develar
-		System.out.println("Ingresa imagen");
-		imagen_original = sc.nextLine();
-		System.out.println("Ingresa archivo");
-		archivo = sc.nextLine();
-		texto = control.decodificar("Img", imagen_original);
-		escribeTexto(archivo, texto);
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////7
-
-
-
-		/*
 		//Obtenemos la opción
 		System.out.println("***************************************");
 		System.out.println("Introduzca la opcion a realizar: ");
@@ -127,15 +102,11 @@ public class ControladorOpcion{
 		System.out.println();
 		opcion = sc.nextLine();
 
-		if(opcion.compareTo("h") != 0 || opcion.compareTo("u") != 0)
-			System.out.println("Opcion incorrecta por favor verifica...");	
-		else{
+		if(opcion.compareTo("h") == 0 || opcion.compareTo("u") == 0){
 			//Métodos correspondientes
 
 			//Opcion ocultar
 			if(opcion.compareTo("h") == 0){
-
-				ControladorEsteganografia control = new ControladorEsteganografia();
 
 				System.out.println("Ingresa el nombre del archivo con el texto...");
 				archivo = sc.nextLine();
@@ -150,7 +121,7 @@ public class ControladorOpcion{
 				System.out.println();
 
 				//Procesamos datos
-				String texto = getTexto(archivo);
+				texto = getTexto(archivo);
 
 				boolean realizado = false;
 
@@ -162,9 +133,7 @@ public class ControladorOpcion{
 					System.out.println("***************************************");
 				}
 
-			} else if(opcion.compareTo("u") == 0){ //Opcion develar
-
-				ControladorEsteganografia control = new ControladorEsteganografia();
+			} else { //Opcion develar
 
 				System.out.println("Ingresa el nombre de la imagen...");
 				imagen_original = sc.nextLine();
@@ -191,6 +160,10 @@ public class ControladorOpcion{
 					System.out.println("***************************************");
 				}
 			}
-		}*/
+		}
+		else{
+
+			System.out.println("Opcion incorrecta por favor verifica...");			
+		}
 	}
 }
