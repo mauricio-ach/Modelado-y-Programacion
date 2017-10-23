@@ -112,7 +112,7 @@ public class ControladorOpcion{
 				archivo = sc.nextLine();
 				System.out.println("Ingresa el nombre de la imagen...");
 				imagen_original = sc.nextLine();
-				System.out.println("Ingresa el nombre se la imagen de salida...");
+				System.out.println("Ingresa el nombre de la imagen de salida...");
 				imagen_salida = sc.nextLine();
 				System.out.println();
 				System.out.println("***************************************");
@@ -152,7 +152,7 @@ public class ControladorOpcion{
 
 				if(salida.compareTo("") == 0){
 					System.out.println("***************************************");
-					System.out.println("Realizado ! Propable imagen no haya tenido texto ...");
+					System.out.println("Realizado ! Probable imagen no haya tenido texto ...");
 					System.out.println("***************************************");
 				} else {
 					System.out.println("***************************************");

@@ -11,6 +11,16 @@ Para ejecutar utilice el comando:
 # java -jar esteganografia.jar
 
 Y basta proporcionar los datos que el programa requerirá
+sin extensiones..
+
+Quedando :
+
+Ingresa el nombre del archivo con el texto...
+texto
+Ingresa el nombre de la imagen...
+Paisaje
+Ingresa el nombre de la imagen de salida...
+PaisajeEscondido
 
 ********************************************************
 Importante!!!
