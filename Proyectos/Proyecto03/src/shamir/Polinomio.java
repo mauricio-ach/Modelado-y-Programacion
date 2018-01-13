@@ -18,15 +18,104 @@ package shamir;
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Vector;
+import java.util.Random;
 import java.math.BigInteger;
 /**
- * @author Mauricio Araujo
+ * @author Mauricio Araujo, Martin Carmona
  * @version 1.0 
  * @since Jan 2 2018
  *
  * Clase para modelar un polinomio de grado n
+ * Se utiliza el campo Zp para realizar las operaciones
  *
  */
-public class Polinomio{}
+public class Polinomio {
+	//primo a utilizar en Zp
+	public BigInteger p = new BigInteger("208351617316091241234326746312124448251235562226470491514186331217050270460481");
+	public BigInteger[] polinomioLista; 
+	
+	/**
+	* Constructor de la clase a partir del término independiente
+	* y el grado del polinomio.
+	* @param indp termino independiente
+	* @param grado el grado del polinomio
+	* @return un nuevo polinomio a partir de los datos proporcionados
+	*/
+	public Polinomio(BigInteger indp, int grado) {
+		BigInteger coeficiente = null;
+		BigInteger[] listaTemporal = new BigInteger[grado];
+		listaTemporal[0] = indp;
+		for(int i = 1; i < listaTemporal.length; i++) {
+			do {
+				coeficiente = new BigInteger(this.p.bitLength(), new Random());
+			} while(coeficiente.compareTo(this.p) >= 0 || coeficiente.compareTo(BigInteger.ZERO) == 0);
+			listaTemporal[i] = coeficiente;
+		}
+		this.polinomioLista = listaTemporal;
+	}
+
+	/**
+	* Método para obtener el primo p del campo Zp
+	* @return el primo p
+	*/
+	public BigInteger getP() {
+		return this.p;
+	}
+
+	/**
+	* Método para evaluar el polinomio n veces
+	* @param lista contiene cada uno de los componentes del polinomio
+	* @param n el número de evaluaciones que seran realizadas
+	* @return un vetor con las evaluaciones
+	*/
+	public Vector[] evaluacion(BigInteger[] lista, int numero) {
+		BigInteger coeficienteTemp = null;
+		BigInteger coeficiente = new BigInteger("0");
+		Vector[] evaluacion = new Vector[numero];
+		for(int i = 0; i < evaluacion.length; i++) {
+			do {
+				coeficiente = new BigInteger(this.p.bitLength(), new Random());
+			} while(coeficiente.compareTo(this.p) >= 0 || coeficiente.compareTo(BigInteger.ZERO) == 0);
+			evaluacion[i] = new Vector(2);
+			evaluacion[i].add(0, coeficiente);
+			for(int j = 0; j < lista.length; j++) {
+				coeficienteTemp = coeficienteTemp.add(lista[j].multiply(coeficiente.modPow(BigInteger.valueOf((long) j), this.p)).mod(this.p)).mod(this.p);	
+			}
+			evaluacion[i].add(1, coeficienteTemp);
+			coeficienteTemp = new BigInteger("0");
+		}
+		return evaluacion;
+	}
+
+	/**
+	* Metodo que aplica el algoritmo de LaGrange para calcular el 
+	* polinomio de interpolacion
+	* @param x el valor de evaluacion
+	* @param puntos los puntos en Zp
+	*/
+	public BigInteger interpolacion(BigInteger x, Vector[] puntos) {
+		BigInteger numeroFinal = new BigInteger("0");
+		BigInteger numerador = new BigInteger("1");
+		BigInteger denominador = new BigInteger("1");
+		BigInteger temporal = null;
+		BigInteger auxiliar = null;
+		BigInteger cociente = null;
+
+		for(int i = 0; i < puntos.length; i++) {
+			numerador = new BigInteger("1");
+			denominador = new BigInteger("1");
+			for(int j = 0; j < puntos.length; j++) {
+				if(j != i) {
+					temporal = (BigInteger)puntos[i].elementAt(0);
+					auxiliar = (BigInteger)puntos[j].elementAt(0);
+					numerador = numerador.multiply(x.subtract(auxiliar).mod(this.p)).mod(this.p);
+					denominador = denominador.multiply(temporal.subtract(auxiliar).mod(p)).mod(p);
+				}
+			}
+			cociente = numerador.multiply(denominador.modInverse(this.p)).mod(this.p);
+			numeroFinal = numeroFinal.add(((BigInteger) puntos[i].elementAt(1)).multiply(cociente).mod(this.p)).mod(this.p);
+		}
+		return numeroFinal;
+	}
+}
