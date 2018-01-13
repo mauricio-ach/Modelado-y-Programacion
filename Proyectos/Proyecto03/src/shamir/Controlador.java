@@ -61,6 +61,12 @@ public class Controlador {
 		}
 	}
 
+	/**
+	* Metodo que cifra un archivo 
+	* @param constraseña la contraseña a utilizar
+	* @param nombreArchivo nombre que se le dará al archivo
+	* @param archivoOriginal el nombre del archivo a encriptar
+	*/
 	public void cifrar(byte[] contraseña, String nombreArchivo, String archivoOriginal) {
 		String archivo = nombreArchivo;
 		int aux;
@@ -87,6 +93,10 @@ public class Controlador {
 		}
 	}
 
+	/**
+	* Metodo para decifrar un archivo cifrado
+	* @return un arreglo de bytes para ayudar al decifrado
+	*/
 	public byte[] decifrar() {
 		Vector[] texto = null;
 		MessageDigest md;
@@ -94,7 +104,7 @@ public class Controlador {
 		LinkedList<Vector> lista = new LinkedList<>();
 		try {
 			String linea;
-			FileInputStream fis = new FileInputStream("Doc/evaluaciones.frg");
+			FileInputStream fis = new FileInputStream("evaluaciones.frg");
 			DataInputStream in = new DataInputStream(fis);
 			BufferedReader bf = new BufferedReader(new InputStreamReader(in));
 			while((linea = bf.readLine()) != null) {
@@ -112,7 +122,11 @@ public class Controlador {
 		}
 	}
 
-	public byte[] obetenerClave() {
+	/**
+	* Método para obtener una contraseña del usuario y convertirla en SHA-256
+	* @return la clave en SHA-256
+	*/
+	public byte[] obtenerClave() {
 		char[] clave;
 		byte[] texto = null;
 		MessageDigest md;
@@ -129,6 +143,11 @@ public class Controlador {
 		return texto;
 	}
 
+	/**
+	* Metodo para regresar el archivo original
+	* @param la contraseña que ingresó el usuario
+	* @param el nombre del archivo encriptado
+	*/
 	public void escribirArchivo(byte[] contraseña, String nombreArchivo) {
 		String nombre;
 		int aux;
@@ -142,7 +161,7 @@ public class Controlador {
 			else
 				nombre = nombreArchivo.substring(0, nombreArchivo.lastIndexOf('.'));
 			cipher = Cipher.getInstance("AES");
-			writer = new FileOutputStream("/Doc/" + nombre, true);
+			writer = new FileOutputStream(nombre, true);
 			key = new SecretKeySpec(contraseña, "AES");
 			cipher.init(Cipher.DECRYPT_MODE, key);
 			cipherInput = new CipherInputStream(new FileInputStream(nombreArchivo), cipher);
