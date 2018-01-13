@@ -33,10 +33,25 @@ public class Interfaz {
 		byte[] contraseña;
 		Controlador controlador = new Controlador();
 		Polinomio aux = new Polinomio();
-		String nombreArchivo = args[2];
-		String nombreOriginal = args[5];
+		String opcion = args[0];
+		String archivoEval = "evaluaciones.frg";
+		int evaluaciones = Integer.parseInt(args[2]);
+		int min = Integer.parseInt(args[3]);
+		String archivo = args[4];
+		
+		if(opcion != "c" || opcion != "d")
+			System.out.println("Opción incorrecta!");
+
+		if(evaluaciones <= 2)
+			System.out.println("El número de evaluaciones debe ser mayor o igual a 3");
+
+		if((min) < 1 || (min) > evaluaciones)
+			System.out.println("El número mínimo de puntos debe ser mayor a 1 y menor que el númeor de evaluaciones");
+
+
+
 		if(args.length == 5) {
-			if(args[0] == "c") {
+			if(opcion == "c") {
 				System.out.println("Por cifrar: " + nombreOriginal);
 				contraseña = new BigInteger(controlador.obtenerClave()).abs().toByteArray();
 				System.out.println("Realizado contraseña SHA-256");
