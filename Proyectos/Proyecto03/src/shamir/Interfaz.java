@@ -32,14 +32,19 @@ public class Interfaz {
 	public static void main(String[] args) {
 		byte[] contraseña;
 		Controlador controlador = new Controlador();
-		Polinomio polinomio;
+		Polinomio aux = new Polinomio();
 		String nombreArchivo = args[2];
+		String nombreOriginal = args[5];
 		if(args.length == 5) {
 			if(args[0] == "c") {
-				System.out.println("Por cifrar: " + args[5]);
+				System.out.println("Por cifrar: " + nombreOriginal);
 				contraseña = new BigInteger(controlador.obtenerClave()).abs().toByteArray();
 				System.out.println("Realizado contraseña SHA-256");
-				controlador.cifrar(contraseña, )
+				controlador.cifrar(contraseña, nombreArchivo, nombreOriginal);
+				System.out.println("Archivo cifrado...");
+				System.out.println("Creando archivo .frg");
+				Polinomio polinomio = new Polinomio((new BigInteger(contraseña).mod(aux.p)), )
+				controlador.evaluaciones()
 			} else {
 				System.out.println("Argumentos inválidos!");
 			}
