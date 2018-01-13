@@ -118,4 +118,17 @@ public class Polinomio {
 		}
 		return numeroFinal;
 	}
+
+	/**
+	* Método que regresa la lista del polinomio con el termino independiente ya
+	* incluido
+	* @param indp el termino independiente
+	* @param grado del polinomio
+	* @param evaluaciones el numero de evaluaciones
+	* @return la lista del polinomio
+	*/
+	public Vector[] crearListaTerminoIndependiente(BigInteger indp, int grado, int evaluaciones) {
+		Polinomio polinomio = new Polinomio((indp.mod(this.p)), grado);
+		return evaluacion(polinomio.polinomioLista, evaluaciones)
+	}
 }

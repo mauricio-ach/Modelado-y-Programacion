@@ -19,8 +19,27 @@ package shamir;
  *
  */
 
+import java.util.LinkedList;
+import java.util.Arrays;
+import java.util.Vector;
+import java.math.BigInteger;
+import java.io.Console;
+import java.io.FileOutputStream;
+import java.io.Writer;
+import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.DataInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.security.MessageDigest;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.CipherInputStream;
+import java.io.IOException;
+
 /**
- * @author Mauricio Araujo
+ * @author Mauricio Araujo, Martin Carmona
  * @version 1.0 
  * @since Jan 2 2018
  *
@@ -28,4 +47,111 @@ package shamir;
  *
  */
 
-public class Controlador {}
+public class Controlador {
+
+	public void evaluaciones(Vector[] lista) {
+		try {
+			Writer writer = new FileWriter("/Doc/evaluaciones.frg", true);
+			for(int i = 0; i < lista.length; i++) {
+				writer.write(lista[i].elementAt(0).toString() + "," + lista.elementAt(1).toString() + "\n");
+			}	
+			writer.close();
+		} catch(Exception e) {
+			System.out.println("Error al escribir");
+		}
+	}
+
+	public void cifrar(byte[] contraseña, String nombreArchivo, String archivoOriginal) {
+		String archivo = nombreArchivo;
+		int aux;
+		CipherInputStream cipherInput;
+		FileOutputStream writer;
+		SecretKeySpec key;
+		Cipher cipher;
+		try {
+			if(archivoOriginal.lastIndexOf('.') == -1)
+				archivo = archivo + ".aes";
+			else 
+				archivo = archivo.substring(0, archivo.lastIndexOf('.')) + ".aes";
+			cipher = Cipher.getInstance("AES");
+			writer = new FileOutputStream(archivo, true);
+			key = new SecretKeySpec(contraseña, "AES");
+			cipher.init(Cipher.ENCRYPT_MODE, key);
+			cipherInput = new CipherInputStream(new FileInputStream(archivoOriginal), cipher);
+			while((aux = cipherInput.read()) != -1)
+				writer.write(aux);
+			writer.close();
+			cipherInput.close();
+		} catch(Exception e) {
+			System.out.println("Error al encriptar");
+		}
+	}
+
+	public byte[] decifrar() {
+		Vector[] texto = null;
+		MessageDigest md;
+		Polinomio polinomio = new Polinomio();
+		LinkedList<Vector> lista = new LinkedList<>();
+		try {
+			String linea;
+			FileInputStream fis = new FileInputStream("Doc/evaluaciones.frg");
+			DataInputStream in = new DataInputStream(fis);
+			BufferedReader bf = new BufferedReader(new InputStreamReader(in));
+			while((linea = bf.readLine()) != null) {
+				lista.add(new Vector(2));
+				((Vector)lista.getLast()).add(0, new BigInteger(linea.substring(0, linea.indexOf(','))));
+				((Vector)lista.getLast()).add(1, new BigInteger(linea.substring(linea.indexOf(',') + 1 , linea.length())));
+			}
+			in.close();
+			texto = new Vector[lista.size()];
+			for(int i = 0; i < texto.length; i++)
+				texto[i] = (Vector)lista.get(i);
+			return polinomio.interpolacion(new BigInteger("0"), texto).toByteArray();
+		} catch(Exception e) {
+			System.out.println("Error al decifrar!");
+		}
+	}
+
+	public byte[] obetenerClave() {
+		char[] clave;
+		byte[] texto = null;
+		MessageDigest md;
+		Console consola;
+		try {
+			if((consola = System.console()) != null && (clave = consola.readPassword("[%s]", "Contraseña:")) != null) {
+				md = MessageDigest.getInstance("SHA-256");
+				texto = md.digest(new String(clave).getBytes());
+				Arrays.fill(clave, ' ');
+			}
+		} catch (Exception e) {
+				System.out.println("Error obtenerClave!");
+			}
+		return texto;
+	}
+
+	public void escribirArchivo(byte[] contraseña, String nombreArchivo) {
+		String nombre;
+		int aux;
+		CipherInputStream cipherInput;
+		FileOutputStream writer;
+		SecretKeySpec key;
+		Cipher cipher;	
+		try {
+			if(nombreArchivo.lastIndexOf('.') == -1)
+				nombre = nombreArchivo;
+			else
+				nombre = nombreArchivo.substring(0, nombreArchivo.lastIndexOf('.'));
+			cipher = Cipher.getInstance("AES");
+			writer = new FileOutputStream("/Doc/" + nombre, true);
+			key = new SecretKeySpec(contraseña, "AES");
+			cipher.init(Cipher.DECRYPT_MODE, key);
+			cipherInput = new CipherInputStream(new FileInputStream(nombreArchivo), cipher);
+			while((aux = cipherInput.read()) != -1)
+				writer.write(aux);
+			writer.close();
+			cipherInput.close();
+		} catch(Exception e) {
+			System.out.println("Error al crear archivo!");
+		}
+	}
+}
