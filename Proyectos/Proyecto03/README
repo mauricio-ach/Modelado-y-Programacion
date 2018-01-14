@@ -17,22 +17,22 @@ $ ant
 Para ejecutar utilizar el comando e ingresando los datos de entrada:
 
 ----Para cifrar----
-$ java -jar shamir.jar c evaluaciones.frg n t archivo
+$ java -jar shamir.jar c evaluaciones n t archivo
 
 Donde:
 	"c"				   es la opción cifrar
-	"evaluaciones.frg" es el archivo donde se guardarán las evaluaciones
+	"evaluaciones" 	   es el archivo donde se guardarán las evaluaciones (no incluir extensión .frg)
 					   del polinomio.
 	"n"  			   el número total de evaluaciones (n > 2)
 	"t"				   el número mínimo de puntos para decifrar(1 < t <= n)
 	"archivo"		   el archivo que se quiere cifrar
 
 ----Para decifrar----
-$ java -jar shamir.jar d evaluaciones.frg archivo
+$ java -jar shamir.jar d evaluaciones archivo
 
 Donde:
 	"d"				   es la opción decifrar
-	"evaluaciones.frg" es el archivo con al menos t de las evaluaciones
+	"evaluaciones"     es el archivo con al menos t de las evaluaciones (no incluir extensión .frg)
 	"archivo"		   el nombre del archivo cifrado
 
 ********************************************************************

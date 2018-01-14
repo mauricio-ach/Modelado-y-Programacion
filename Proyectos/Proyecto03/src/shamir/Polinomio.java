@@ -32,7 +32,7 @@ import java.math.BigInteger;
  */
 public class Polinomio {
 	//primo a utilizar en Zp
-	public BigInteger p = new BigInteger("208351617316091241234326746312124448251235562226470491514186331217050270460481");
+	public static BigInteger p = new BigInteger("208351617316091241234326746312124448251235562226470491514186331217050270460481");
 	public BigInteger[] polinomioLista; 
 	
 	/**
@@ -129,6 +129,6 @@ public class Polinomio {
 	*/
 	public Vector[] crearListaTerminoIndependiente(BigInteger indp, int grado, int evaluaciones) {
 		Polinomio polinomio = new Polinomio((indp.mod(this.p)), grado);
-		return evaluacion(polinomio.polinomioLista, evaluaciones)
+		return evaluacion(polinomio.polinomioLista, evaluaciones);
 	}
 }

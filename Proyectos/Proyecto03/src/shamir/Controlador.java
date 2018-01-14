@@ -49,11 +49,11 @@ import java.io.IOException;
 
 public class Controlador {
 
-	public void evaluaciones(Vector[] lista) {
+	public void evaluaciones(Vector[] lista, String archivo) {
 		try {
-			Writer writer = new FileWriter("/Doc/evaluaciones.frg", true);
+			Writer writer = new FileWriter(archivo + ".frg", true);
 			for(int i = 0; i < lista.length; i++) {
-				writer.write(lista[i].elementAt(0).toString() + "," + lista.elementAt(1).toString() + "\n");
+				writer.write(((lista[i]).elementAt(0)).toString() + "," + lista.elementAt(1).toString() + "\n");
 			}	
 			writer.close();
 		} catch(Exception e) {
@@ -97,14 +97,14 @@ public class Controlador {
 	* Metodo para decifrar un archivo cifrado
 	* @return un arreglo de bytes para ayudar al decifrado
 	*/
-	public byte[] decifrar() {
+	public byte[] decifrar(Strig archivo) {
 		Vector[] texto = null;
 		MessageDigest md;
 		Polinomio polinomio = new Polinomio();
 		LinkedList<Vector> lista = new LinkedList<>();
 		try {
 			String linea;
-			FileInputStream fis = new FileInputStream("evaluaciones.frg");
+			FileInputStream fis = new FileInputStream(archivo + ".frg");
 			DataInputStream in = new DataInputStream(fis);
 			BufferedReader bf = new BufferedReader(new InputStreamReader(in));
 			while((linea = bf.readLine()) != null) {

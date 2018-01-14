@@ -34,40 +34,41 @@ public class Interfaz {
 		Controlador controlador = new Controlador();
 		Polinomio aux = new Polinomio();
 		String opcion = args[0];
-		String archivoEval = "evaluaciones.frg";
-		int evaluaciones = Integer.parseInt(args[2]);
-		int min = Integer.parseInt(args[3]);
-		String archivo = args[4];
+		String archivoEval;
+		String archivo;
 		
 		if(opcion != "c" || opcion != "d")
 			System.out.println("Opción incorrecta!");
 
-		if(evaluaciones <= 2)
-			System.out.println("El número de evaluaciones debe ser mayor o igual a 3");
-
-		if((min) < 1 || (min) > evaluaciones)
-			System.out.println("El número mínimo de puntos debe ser mayor a 1 y menor que el númeor de evaluaciones");
-
-
-
 		if(args.length == 5) {
+			archivoEval = args[1];
+			int evaluaciones = Integer.parseInt(args[2]);
+			int min = Integer.parseInt(args[3]);
+			archivo = args[4];
+			if(evaluaciones <= 2)
+				System.out.println("El número de evaluaciones debe ser mayor o igual a 3");
+
+			if((min) < 1 || (min) > evaluaciones)
+				System.out.println("El número mínimo de puntos debe ser mayor a 1 y menor que el númeor de evaluaciones");
+
 			if(opcion == "c") {
-				System.out.println("Por cifrar: " + nombreOriginal);
+				System.out.println("Por cifrar: " + archivo);
 				contraseña = new BigInteger(controlador.obtenerClave()).abs().toByteArray();
 				System.out.println("Realizado contraseña SHA-256");
-				controlador.cifrar(contraseña, nombreArchivo, nombreOriginal);
+				controlador.cifrar(contraseña, archivoEval, archivo);
 				System.out.println("Archivo cifrado...");
 				System.out.println("Creando archivo .frg");
-				Polinomio polinomio = new Polinomio((new BigInteger(contraseña).mod(aux.p)), )
-				controlador.evaluaciones()
-			} else {
-				System.out.println("Argumentos inválidos!");
+				controlador.evaluaciones((aux.crearListaTerminoIndependiente(new BigInteger(contraseña).mod(aux.p)), evaluaciones, min), archivoEval);
 			}
 		} else if(args.length == 3) {
-			if(args[0] == "d") {
+			archivoEval = args[1];
+			archivo = args[2];
 
-			} else {
-				System.out.println("Argumentos inválidos!");
+			if(args[0] == "d") {
+				System.out.println("Decifrando archivo: " + archivo);
+				contraseña = controlador.decifrar(archivoEval);
+				controlador.escribirArchivo(contraseña, archivo);
+				System.out.println("");
 			}
 		} else {
 			System.out.println("Argumentos inválidos!");
