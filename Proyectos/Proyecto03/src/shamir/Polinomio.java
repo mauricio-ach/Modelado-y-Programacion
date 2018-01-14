@@ -59,14 +59,6 @@ public class Polinomio {
 	}
 
 	/**
-	* Método para obtener el primo p del campo Zp
-	* @return el primo p
-	*/
-	public BigInteger getP() {
-		return this.p;
-	}
-
-	/**
 	* Método para evaluar el polinomio n veces
 	* @param lista contiene cada uno de los componentes del polinomio
 	* @param n el número de evaluaciones que seran realizadas

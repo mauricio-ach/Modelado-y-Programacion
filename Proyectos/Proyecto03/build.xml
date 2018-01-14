@@ -9,7 +9,7 @@
     <jar jarfile="shamir.jar">
       <zipfileset dir="${build.dir}" prefix="" />
       <manifest>
-	<attribute name="Main-Class" value="src/shamir/Interfaz.java"/>
+	<attribute name="Main-Class" value="shamir.Interfaz"/>
       </manifest>
     </jar>
   </target>

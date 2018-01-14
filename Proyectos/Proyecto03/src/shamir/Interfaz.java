@@ -36,9 +36,7 @@ public class Interfaz {
 		String opcion = args[0];
 		String archivoEval;
 		String archivo;
-		
-		if(opcion != "c" || opcion != "d")
-			System.out.println("Opción incorrecta!");
+
 
 		if(args.length == 5) {
 			archivoEval = args[1];
@@ -51,7 +49,7 @@ public class Interfaz {
 			if((min) < 1 || (min) > evaluaciones)
 				System.out.println("El número mínimo de puntos debe ser mayor a 1 y menor que el númeor de evaluaciones");
 
-			if(opcion == "c") {
+			if(opcion.compareTo("c") == 0) {
 				System.out.println("Por cifrar: " + archivo);
 				contraseña = new BigInteger(controlador.obtenerClave()).abs().toByteArray();
 				System.out.println("Realizado contraseña SHA-256");
@@ -59,16 +57,20 @@ public class Interfaz {
 				System.out.println("Archivo cifrado...");
 				System.out.println("Creando archivo .frg");
 				controlador.evaluaciones((aux.crearListaTerminoIndependiente(new BigInteger(contraseña).mod(aux.p), evaluaciones, min)), archivoEval);
+			} else {
+				System.out.println("error1");
 			}
 		} else if(args.length == 3) {
 			archivoEval = args[1];
 			archivo = args[2];
 
-			if(args[0] == "d") {
+			if(opcion.compareTo("d") == 0) {
 				System.out.println("Decifrando archivo: " + archivo);
 				contraseña = controlador.decifrar(archivoEval);
 				controlador.escribirArchivo(contraseña, archivo);
 				System.out.println("");
+			} else {
+				System.out.println("error2");
 			}
 		} else {
 			System.out.println("Argumentos inválidos!");
