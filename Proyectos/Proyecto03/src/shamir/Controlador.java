@@ -53,7 +53,7 @@ public class Controlador {
 		try {
 			Writer writer = new FileWriter(archivo + ".frg", true);
 			for(int i = 0; i < lista.length; i++) {
-				writer.write(((lista[i]).elementAt(0)).toString() + "," + lista.elementAt(1).toString() + "\n");
+				writer.write(lista[i].elementAt(0).toString() + "," + lista[i].elementAt(1).toString() + "\n");
 			}	
 			writer.close();
 		} catch(Exception e) {
@@ -97,7 +97,7 @@ public class Controlador {
 	* Metodo para decifrar un archivo cifrado
 	* @return un arreglo de bytes para ayudar al decifrado
 	*/
-	public byte[] decifrar(Strig archivo) {
+	public byte[] decifrar(String archivo) {
 		Vector[] texto = null;
 		MessageDigest md;
 		Polinomio polinomio = new Polinomio();
@@ -120,6 +120,7 @@ public class Controlador {
 		} catch(Exception e) {
 			System.out.println("Error al decifrar!");
 		}
+		return null;
 	}
 
 	/**

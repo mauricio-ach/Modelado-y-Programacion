@@ -32,9 +32,12 @@ import java.math.BigInteger;
  */
 public class Polinomio {
 	//primo a utilizar en Zp
-	public static BigInteger p = new BigInteger("208351617316091241234326746312124448251235562226470491514186331217050270460481");
+	public BigInteger p = new BigInteger("208351617316091241234326746312124448251235562226470491514186331217050270460481");
 	public BigInteger[] polinomioLista; 
 	
+	//Constructor vacío de la clase
+	public Polinomio(){}
+
 	/**
 	* Constructor de la clase a partir del término independiente
 	* y el grado del polinomio.
