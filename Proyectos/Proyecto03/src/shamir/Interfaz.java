@@ -56,7 +56,7 @@ public class Interfaz {
 				controlador.cifrar(contraseña, archivoEval, archivo);
 				System.out.println("Archivo cifrado...");
 				System.out.println("Creando archivo .frg");
-				controlador.evaluaciones((aux.crearListaTerminoIndependiente(new BigInteger(contraseña).mod(aux.p), evaluaciones, min)), archivoEval);
+				controlador.evaluaciones((aux.crearListaTerminoIndependiente((new BigInteger(contraseña).mod(aux.p)), evaluaciones, min)), archivoEval);
 			} else {
 				System.out.println("error1");
 			}

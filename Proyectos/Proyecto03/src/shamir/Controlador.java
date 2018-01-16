@@ -89,7 +89,7 @@ public class Controlador {
 			writer.close();
 			cipherInput.close();
 		} catch(Exception e) {
-			System.out.println("Error al encriptar");
+			System.out.println("Error al cifrar");
 		}
 	}
 

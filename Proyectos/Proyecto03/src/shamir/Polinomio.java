@@ -70,15 +70,15 @@ public class Polinomio {
 		Vector[] evaluacion = new Vector[numero];
 		for(int i = 0; i < evaluacion.length; i++) {
 			do {
-				coeficiente = new BigInteger(this.p.bitLength(), new Random());
-			} while(coeficiente.compareTo(this.p) >= 0 || coeficiente.compareTo(BigInteger.ZERO) == 0);
+				coeficienteTemp = new BigInteger(this.p.bitLength(), new Random());
+			} while(coeficienteTemp.compareTo(this.p) >= 0 || coeficienteTemp.compareTo(BigInteger.ZERO) == 0);
 			evaluacion[i] = new Vector(2);
-			evaluacion[i].add(0, coeficiente);
+			evaluacion[i].add(0, coeficienteTemp);
 			for(int j = 0; j < lista.length; j++) {
-				coeficienteTemp = coeficienteTemp.add(lista[j].multiply(coeficiente.modPow(BigInteger.valueOf((long) j), this.p)).mod(this.p)).mod(this.p);	
+		  		coeficiente = coeficiente.add(lista[j].multiply(coeficienteTemp.modPow(BigInteger.valueOf((long) j), this.p)).mod(this.p)).mod(this.p);	
 			}
-			evaluacion[i].add(1, coeficienteTemp);
-			coeficienteTemp = new BigInteger("0");
+			evaluacion[i].add(1, coeficiente);
+			coeficiente = new BigInteger("0");
 		}
 		return evaluacion;
 	}
