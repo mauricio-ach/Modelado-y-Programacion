@@ -53,8 +53,7 @@ public class Interfaz {
 				System.out.println("Por cifrar: " + archivo);
 				contraseña = new BigInteger(controlador.obtenerClave()).abs().toByteArray();
 				System.out.println("Realizado contraseña SHA-256");
-				controlador.cifrar(contraseña, archivoEval, archivo);
-				System.out.println("Archivo cifrado...");
+				controlador.cifrar(contraseña, archivo);
 				System.out.println("Creando archivo .frg");
 				controlador.evaluaciones((aux.crearListaTerminoIndependiente((new BigInteger(contraseña).mod(aux.p)), evaluaciones, min)), archivoEval);
 			} else {

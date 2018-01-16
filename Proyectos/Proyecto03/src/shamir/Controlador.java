@@ -67,8 +67,8 @@ public class Controlador {
 	* @param nombreArchivo nombre que se le dará al archivo
 	* @param archivoOriginal el nombre del archivo a encriptar
 	*/
-	public void cifrar(byte[] contraseña, String nombreArchivo, String archivoOriginal) {
-		String archivo = nombreArchivo;
+	public void cifrar(byte[] contraseña, String archivoOriginal) {
+		String archivo;
 		int aux;
 		CipherInputStream cipherInput;
 		FileOutputStream writer;
@@ -76,9 +76,9 @@ public class Controlador {
 		Cipher cipher;
 		try {
 			if(archivoOriginal.lastIndexOf('.') == -1)
-				archivo = archivo + ".aes";
+				archivo = archivoOriginal + ".aes";
 			else 
-				archivo = archivo.substring(0, archivo.lastIndexOf('.')) + ".aes";
+				archivo = archivoOriginal.substring(0, archivoOriginal.lastIndexOf('.')) + ".aes";
 			cipher = Cipher.getInstance("AES");
 			writer = new FileOutputStream(archivo, true);
 			key = new SecretKeySpec(contraseña, "AES");
@@ -88,8 +88,10 @@ public class Controlador {
 				writer.write(aux);
 			writer.close();
 			cipherInput.close();
+			System.out.println("Archivo cifrado...");
 		} catch(Exception e) {
 			System.out.println("Error al cifrar");
+			System.err.println(e);
 		}
 	}
 
@@ -127,6 +129,9 @@ public class Controlador {
 	* Método para obtener una contraseña del usuario y convertirla en SHA-256
 	* @return la clave en SHA-256
 	*/
+	//**************************************************************************
+	//Revisar JCE (Java Cryptography Extension) para un correcto funcionamiento
+	//**************************************************************************
 	public byte[] obtenerClave() {
 		char[] clave;
 		byte[] texto = null;
@@ -160,7 +165,7 @@ public class Controlador {
 			if(nombreArchivo.lastIndexOf('.') == -1)
 				nombre = nombreArchivo;
 			else
-				nombre = nombreArchivo.substring(0, nombreArchivo.lastIndexOf('.'));
+				nombre = "Doc/" + nombreArchivo.substring(0, nombreArchivo.lastIndexOf('.'));
 			cipher = Cipher.getInstance("AES");
 			writer = new FileOutputStream(nombre, true);
 			key = new SecretKeySpec(contraseña, "AES");
@@ -172,6 +177,7 @@ public class Controlador {
 			cipherInput.close();
 		} catch(Exception e) {
 			System.out.println("Error al crear archivo!");
+			System.err.println(e);
 		}
 	}
 }

@@ -9,6 +9,29 @@ Carmona Mendoza Martín, 313075977
 
 ********************************************************************
 
+********************************************************************
+********************************************************************
+----------------- IMPORTANTE ----------------------------------------	
+
+Revisar el siguiente enlace antes de ejecutar el programa, existe una restricción por parte de Java al
+utilizar la biblioteca para crear la contraseña. Descárgese el siguiente archivo: 
+
+------------------------------------------------------------------------
+http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
+------------------------------------------------------------------------
+
+Corresponde a Java8, de tener una versión inferior descargar el archivo correspondiente...
+
+Descomprimir y mover los archivos .jar a la ruta donde esté instalado Java en la siguiente carpeta
+------------------------------------------------------------------------
+		${java.home}/jre/lib/security/
+------------------------------------------------------------------------
+
+Con esto no se tiene problemas al ejecutar el programa.
+
+********************************************************************
+********************************************************************
+
 Para compilar ejecute el comando: 
 
 $ ant
@@ -34,5 +57,7 @@ Donde:
 	"d"				   es la opción decifrar
 	"evaluaciones"     es el archivo con al menos t de las evaluaciones (no incluir extensión .frg)
 	"archivo"		   el nombre del archivo cifrado
+
+El archivo decifrado se guardará en la carpeta Doc/
 
 ********************************************************************
