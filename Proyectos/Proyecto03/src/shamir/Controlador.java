@@ -167,7 +167,7 @@ public class Controlador {
 			else
 				nombre = nombreArchivo.substring(0, nombreArchivo.lastIndexOf('.'));
 			cipher = Cipher.getInstance("AES");
-			writer = new FileOutputStream(("Doc/" + nombre), true);
+			writer = new FileOutputStream((nombre), true);
 			key = new SecretKeySpec(contraseña, "AES");
 			cipher.init(Cipher.DECRYPT_MODE, key);
 			cipherInput = new CipherInputStream(new FileInputStream(nombreArchivo), cipher);

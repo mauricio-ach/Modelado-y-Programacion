@@ -19,6 +19,7 @@ package shamir;
  *
  */
 import java.math.BigInteger;
+
 /**
  * @author Mauricio Araujo, Martin Carmona
  * @version 1.0 
@@ -67,7 +68,6 @@ public class Interfaz {
 				System.out.println("Decifrando archivo: " + archivo);
 				contraseña = controlador.decifrar(archivoEval);
 				controlador.escribirArchivo(contraseña, archivo);
-				System.out.println("");
 			} else {
 				System.out.println("error2");
 			}
