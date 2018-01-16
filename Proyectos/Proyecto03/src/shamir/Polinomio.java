@@ -105,7 +105,7 @@ public class Polinomio {
 					temporal = (BigInteger)puntos[i].elementAt(0);
 					auxiliar = (BigInteger)puntos[j].elementAt(0);
 					numerador = numerador.multiply(x.subtract(auxiliar).mod(this.p)).mod(this.p);
-					denominador = denominador.multiply(temporal.subtract(auxiliar).mod(p)).mod(p);
+					denominador = denominador.multiply(temporal.subtract(auxiliar).mod(this.p)).mod(this.p);
 				}
 			}
 			cociente = numerador.multiply(denominador.modInverse(this.p)).mod(this.p);

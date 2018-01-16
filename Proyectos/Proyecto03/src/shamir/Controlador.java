@@ -103,7 +103,7 @@ public class Controlador {
 		Vector[] texto = null;
 		MessageDigest md;
 		Polinomio polinomio = new Polinomio();
-		LinkedList<Vector> lista = new LinkedList<>();
+		LinkedList<Vector> lista = new LinkedList<Vector>();
 		try {
 			String linea;
 			FileInputStream fis = new FileInputStream(archivo + ".frg");
@@ -165,9 +165,9 @@ public class Controlador {
 			if(nombreArchivo.lastIndexOf('.') == -1)
 				nombre = nombreArchivo;
 			else
-				nombre = "Doc/" + nombreArchivo.substring(0, nombreArchivo.lastIndexOf('.'));
+				nombre = nombreArchivo.substring(0, nombreArchivo.lastIndexOf('.'));
 			cipher = Cipher.getInstance("AES");
-			writer = new FileOutputStream(nombre, true);
+			writer = new FileOutputStream(("Doc/" + nombre), true);
 			key = new SecretKeySpec(contraseña, "AES");
 			cipher.init(Cipher.DECRYPT_MODE, key);
 			cipherInput = new CipherInputStream(new FileInputStream(nombreArchivo), cipher);
