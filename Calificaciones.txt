@@ -35,3 +35,8 @@ Tu calificación para la actividad proyecto02 es de:
 Calificación: 8
 *************************************************
 
+*************************************************
+Tu calificación para la actividad proyecto03 es de:
+Calificación: 8.5
+*************************************************
+
